@@ -68,6 +68,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     // always follow above method for validation exception ,but....
     // without extending "ResponseEntityExceptionHandler" also we can do in this way like we did for other exceptionhandler
     // no need to create new exception class of "MethodArgumentNotValidException" as it's default in JAVA
+    // return type is ResponseEntity<Object>, NOT ResponseEntity<ErrorDetails>
+    
 //    @ExceptionHandler(Exception.class)
 //    public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception,
 //                                                               WebRequest webRequest){
@@ -81,6 +83,24 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 //        });
 //        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
 //    }
+    // Another method where return type is actually ResponseEntity<ErrorDetails>
+// @ExceptionHandler(MethodArgumentNotValidException.class)
+// public ResponseEntity<ErrorDetails> handleMethodArgumentNotValidException(MethodArgumentNotValidException e,
+//                                                                     WebRequest webRequest) {
+//     Map<String, String> errors = new HashMap<>();
+//     e.getBindingResult().getAllErrors().forEach(
+//             (error) -> {
+//                 String fieldName = ((FieldError) error).getField();
+//                 String message = error.getDefaultMessage();
+//                 errors.put(fieldName, message);
+//             }
+//     );
+
+//     ErrorDetails errorDetails =
+//             new ErrorDetails(new Date(), errors.toString(), webRequest.getDescription(false));
+
+//     return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+// }
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorDetails> handlerAccessDeniedException(AccessDeniedException exception,
