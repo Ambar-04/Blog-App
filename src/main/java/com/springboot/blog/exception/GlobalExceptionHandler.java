@@ -68,6 +68,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     // always follow above method for validation exception ,but....
     // without extending "ResponseEntityExceptionHandler" also we can do in this way like we did for other exceptionhandler
     // no need to create new exception class of "MethodArgumentNotValidException" as it's default in JAVA
+    // return type is ResponseEntity<Object>, NOT ResponseEntity<ErrorDetails>
+
 //    @ExceptionHandler(Exception.class)
 //    public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception,
 //                                                               WebRequest webRequest){

@@ -32,9 +32,21 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toSet());
 
-        // here we are returning instance of User class that is given by Spring Security
-        return new org.springframework.security.core.userdetails.User(user.getEmail(),
+        // here we are returning instance of User class that is given by "Spring Security"
+        return new org.springframework.security.core.userdetails.User(
+                user.getEmail(),   // (Or,) user.getUsername(), but can't use both together.... **
                 user.getPassword(),
-                authorities);
+                authorities // same as getRoles(), but we are passing GrantedAuthority
+        );
     }
 }
+
+// **
+// In your User class, you have both username and email fields, but they are marked as unique.
+// This implies that either the username or the email can be used to uniquely identify a user in your system.
+// In the loadUserByUsername method, you are searching for a user by their username or email.
+// Whichever value is provided as usernameOrEmail will be used to query the database,
+// and if a user is found, you are using their email (which serves as the username in this case) to construct the org.springframework.security.core.userdetails.User instance.
+// If you intended to use the username instead of the email as the username in the UserDetails instance,
+// you would replace user.getEmail() with user.getUsername().
+// However, it seems like your application's design has chosen to use the email as the username for authentication purposes
