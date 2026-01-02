@@ -37,14 +37,14 @@ public class SecurityConfig {
     private UserDetailsService userDetailsService; //instead of using CustomUserDetailsService(in security package)
                                                    //we are directly using the interface UserDetailsService
     private JwtAuthenticationEntryPoint authenticationEntryPoint;
-    private JwtAuthenticationFilter authenticationFilter;
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     public SecurityConfig(UserDetailsService userDetailsService,
                           JwtAuthenticationEntryPoint authenticationEntryPoint,
-                          JwtAuthenticationFilter authenticationFilter){
+                          JwtAuthenticationFilter jwtAuthenticationFilter){
         this.userDetailsService = userDetailsService;
         this.authenticationEntryPoint = authenticationEntryPoint;
-        this.authenticationFilter = authenticationFilter;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
 
@@ -75,7 +75,7 @@ public class SecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationEntryPoint))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-        http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build(); // returns instance of DefaultSecurityFilterChain that implements SecurityFilterChain interface.
     }
